@@ -7,10 +7,7 @@ import pprint
 graph = Graph()
 skos = Namespace('http://www.w3.org/2004/02/skos/core#')
 rdfs = Namespace('http://www.w3.org/2000/01/rdf-schema#')
-#foaf = Namespace('http://xmlns.com/foaf/0.1/')
-#dc = Namespace('http://purl.org/dc/elements/1.1/')
 rdf = Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
-#bio = Namespace('http://purl.org/vocab/bio/0.1/')
 schema = Namespace('https://schema.org/')
 eaccpf = Namespace('http://culturalis.org/eac-cpf#')
 dbo = Namespace('http://dbpedia.org/ontology/')
@@ -22,10 +19,7 @@ owl = Namespace('http://www.w3.org/2002/07/owl#')
 
 graph.bind('skos', skos)
 graph.bind('rdfs', rdfs)
-#graph.bind('foaf', foaf)
-#graph.bind('dc', dc)
 graph.bind('rdf', rdf)
-#graph.bind('bio', bio)
 graph.bind('schema', schema)
 graph.bind('eac-cpf', eaccpf)
 graph.bind('dbo', dbo)
@@ -34,7 +28,7 @@ graph.bind('djo', djo)
 graph.bind('djr', djr)
 graph.bind('owl', owl)
 
-#basis_uri = 'http://dijest.ac.il/person/'
+
 basis_uri = 'djr:person/'
 
 entities_links = {}
@@ -90,7 +84,6 @@ with open ('DiJeSt_personalities.csv', 'r') as csvfile:
 		if len(row['birthPlace']) > 0:
 			birthPlaceNodeName = 'birth-place-' + row['entityID']
 			birthPlace_node = BNode(birthPlaceNodeName)
-			#graph.add((birthPlace_node, RDF['type'], schema['Place']))
 			graph.add((birthPlace_node, RDF['type'], djo['Place']))
 			graph.add((birthPlace_node, schema['name'], Literal(row['birthPlace'])))
 			if len(row['birthPlaceKima']) > 0:
@@ -100,18 +93,15 @@ with open ('DiJeSt_personalities.csv', 'r') as csvfile:
 			if row['deathPlace'] != '[]':
 				deathPlaceNodeName = 'death-place-' + row['entityID']
 				deathPlace_node = BNode(deathPlaceNodeName)
-				#graph.add((deathPlace_node, RDF['type'], schema['Place']))
 				graph.add((deathPlace_node, RDF['type'], djo['Place']))
 				graph.add((deathPlace_node, schema['name'], Literal(row['deathPlace'])))
 				if len(row['deathPlaceKima']) > 0:
 					graph.add((deathPlace_node, schema['url'], URIRef(row['deathPlaceKima'])))				
 				graph.add((URIRef(person_uri), schema['deathPlace'], deathPlace_node))
-# Debug it
-'''
+
 		if len(row['associatedPlaces']) > 0:
 			associatedPlaces = ast.literal_eval(row['associatedPlaces'])
 			if len(associatedPlaces) > 0:
-				#print(associatedPlaces)
 				counterAP = 0
 				for assp in associatedPlaces:
 					counterAP += 1
@@ -119,11 +109,11 @@ with open ('DiJeSt_personalities.csv', 'r') as csvfile:
 					assocPlaceNode = BNode(assocPlaceNodeName)
 					graph.add((assocPlaceNode, RDF['type'], djo['Place']))
 					place_name = list(assp.keys())[0]
-					graph.add((URIRef(assocPlaceNode), schema['name'], Literal(place_name)))
+					graph.add((assocPlaceNode, schema['name'], Literal(place_name)))
 					if len(list(assp.values())[0]) > 0:
-						graph.add((URIRef(assocPlaceNode), schema['url'], URIRef(list(assp.values())[0])))						
+						graph.add((assocPlaceNode, schema['url'], URIRef(list(assp.values())[0])))							
 					graph.add((URIRef(person_uri), eaccpf['hasPlace'], assocPlaceNode))	
-'''
+
 		if len(row['nameHeb']) > 0:
 			graph.add((URIRef(person_uri), schema['name'], Literal(row['nameHeb'], lang='und-Hebr')))
 		if len(row['firstNameHeb']) > 0:
