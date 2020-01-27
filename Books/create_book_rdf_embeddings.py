@@ -54,10 +54,7 @@ with open ('mifalbibl_first_selection.csv','r') as csvfile:
 	for row in reader:
 		book_uri = basis_uri + row['uri']
 		creator_uri = basis_person_uri + row['entityID']
-		#graph.add((URIRef(book_uri), RDF['type'], bibo['Book']))
-		#graph.add((URIRef(book_uri), RDF['type'], schema['Book']))
-		#graph.add((URIRef(book_uri), RDF['type'], fabio['Book']))
-		#graph.add((URIRef(book_uri), RDF['type'], owl['Thing']))
+
 		graph.add((URIRef(book_uri), RDF['type'], djo['Book']))
 
 		graph.add((URIRef(book_uri), dcterms['language'], Literal(row['dcterms:lanugage'])))

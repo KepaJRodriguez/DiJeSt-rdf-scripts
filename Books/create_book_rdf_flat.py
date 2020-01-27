@@ -71,7 +71,7 @@ with open ('mifalbibl_first_selection.csv','r') as csvfile:
 			#graph.add((creatorNode, schema['url'], URIRef(creator_uri)))
 			graph.add((URIRef(book_uri),  dcterms['creator'], URIRef(creator_uri)))
 		else:
-			graph.add((URIRef(book_uri),  dcterms['creator'], iteral(row['AuthorNoPoint'])))
+			graph.add((URIRef(book_uri),  dcterms['creator'], Literal(row['AuthorNoPoint'])))
 		
 
 		graph.add((URIRef(book_uri), dcterms['title'], Literal(row['dcterms:title'])))
