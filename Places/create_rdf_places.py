@@ -51,13 +51,16 @@ with open ('kimaPlaces2020-01-17.csv', 'r') as csvfile:
 			nli_url = 'http://uli.nli.org.il/F/?func=direct&doc_number=00' + row['_ - naF_ID'] + '&local_base=nlx10'
 			graph.add((URIRef(place_uri), rdfs['seeAlso'], URIRef(nli_url)))
 
+		if len(row['_ - primary_heb_full']) > 0:
+			label_name_heb = row['_ - primary_heb_full']
+			graph.add((URIRef(place_uri), rdfs['label'], Literal(label_name_heb, lang='und-Hebr')))
+		if len(row['_ - primary_rom_full']) > 0:
+			label_name_lat = row['_ - primary_rom_full']
+			graph.add((URIRef(place_uri), rdfs['label'], Literal(label_name_lat, lang='und-Latn')))
 
 
 
 
 
 
-
-
-
-graph.serialize(destination='dijest_places.ttl',format='turtle', encoding='utf8') 
+graph.serialize(destination='dijest_places_20200604.ttl',format='turtle', encoding='utf8') 
